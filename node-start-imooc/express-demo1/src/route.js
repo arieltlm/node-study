@@ -5,22 +5,7 @@ const express = require('express')
 
 const app = express()
 
-
-// 可以匹配到所有
-/* app.all('*', (req,res)=>{
-    res.json({
-        message:'demo',
-        method:req.method,
-        url:req.path
-    })
-}) */
-app.all('/demo', (req,res)=>{
-    res.json({
-        message:'demo',
-        method:req.method,
-        url:req.path
-    })
-})
+// app -> Application -> web 服务实例
 
 // 1.通过请求的方法类型 get/post/put/delete
 app.get('/demo', (req, res) => {
@@ -49,6 +34,35 @@ app.get('/user/byid', (req,res)=>{
     const {id} = req.query
     res.json({
         id
+    })
+})
+
+/*=========app.all====== */
+// 可以匹配到所有
+// 实际场景--日志
+/* app.all('*', (req,res)=>{
+    res.json({
+        message:'demo',
+        method:req.method,
+        url:req.path
+    })
+}) */
+// 不论是get，post,delete,put的请求方法，都可以匹配/demo
+/* app.all('/demo', (req,res)=>{
+    res.json({
+        message:'demo',
+        method:req.method,
+        url:req.path
+    })
+}) */
+
+/*=======app.use======*/
+// 主要是中间件的使用，路由也算一种特殊的中间件，所以可以用于路由
+// 平时使用时尽量不要是要app.use来做路由
+app.use('/demo',(req,res) => {
+    res.json({
+        message:'111',
+        method:req.method
     })
 })
 
