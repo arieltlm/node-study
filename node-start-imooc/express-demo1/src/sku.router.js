@@ -8,10 +8,11 @@ router.get('/list',(req,res) => {
         list:[
             {
                 id:1,
-                name:'张三'
+                price:111,
+                name:'鞋子'
             }
         ]
     })
 })
 
-module.export = router
+module.exports = router

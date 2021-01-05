@@ -14,6 +14,6 @@ router.get('/list',(req,res) => {
     })
 })
 
-// 还可以使用router.all，router.use
+// 还可以使用router.all，router.use做进一步路由切割
 
-module.export = router
+module.exports = router

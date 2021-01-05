@@ -15,6 +15,10 @@ app.use('/member',memberRouter) // /member/list
 app.use('/sku',skuRouter) // /sku/list
 app.use(routers)
 
+const middlewares = require('./middleware/index')
+
+app.use(middlewares)
+
 
 // 发出疑问，use和get什么区别呢？
 
