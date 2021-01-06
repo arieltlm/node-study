@@ -6,18 +6,14 @@ const port = 3000
 
 
 // 路由切割
-const memberRouter = require('./member.router')
-const skuRouter = require('./sku.router')
+const memberRouter = require('./router/member.router')
+const skuRouter = require('./router/sku.router')
 
 const routers = require('./route')
 
 app.use('/member',memberRouter) // /member/list
 app.use('/sku',skuRouter) // /sku/list
 app.use(routers)
-
-const middlewares = require('./middleware/index')
-
-app.use(middlewares)
 
 
 // 发出疑问，use和get什么区别呢？
