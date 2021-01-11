@@ -58,3 +58,7 @@ mysql -u root
 ```bash
 quit
 ```
+
+**navicat中新建数据库**:
+字符集选择utf8mb4
+排列规则选择utf8mb4_croatian_ci

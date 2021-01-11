@@ -1,0 +1,37 @@
+.title-with-editor-container {
+    align-items: center;
+    display: flex;
+
+    .show {
+        align-items: center;
+        display: flex;
+        font-size: 20px;
+        font-weight: 500;
+        height: 100%;
+        width: 100%;
+        .title {
+            max-width: calc(100% - 21px);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .change {
+            color: black;
+            cursor: pointer;
+            flex-shrink: 0;
+            font-size: 16px;
+            margin-left: 0.5em;
+
+            & > svg {
+                display: block;
+                height: 1em;
+                width: 1em;
+            }
+        }
+    }
+
+    .edit {
+        width: 100%;
+        max-width: 220px;
+    }
+}

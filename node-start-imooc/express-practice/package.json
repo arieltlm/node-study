@@ -1,0 +1,109 @@
+{
+  "name": "@mlamp/title-with-editor",
+  "version": "1.0.0-alpha.0",
+  "description": "当前组件的简单描述.....",
+  "main": "build/index.js",
+  "scripts": {
+    "eslint": "eslint --ext .tsx,.ts --fix ./src",
+    "prerelease": "webpack --config webpack.build.js -p --bail",
+    "release": "standard-version",
+    "postrelease": "git push --follow-tags origin develop",
+    "test": "jest --watchAll",
+    "build": "webpack --config webpack.build.js -p --bail",
+    "start": "webpack-dev-server --open chrome --config webpack.dev.js --mode development",
+    "mock": "nodemon node-data/src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://code.mlamp.cn/frontend/model/rc-component-scaffold.git"
+  },
+  "bugs": {
+    "url": "https://code.mlamp.cn/frontend/model/rc-component-scaffold/issues"
+  },
+  "homepage": "http://fe.mlamp.cn:3362",
+  "author": "前端魔法部",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "component"
+  ],
+  "engines": {
+    "node": ">=12.0.0",
+    "npm": ">=6"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/polyfill": "^7.4.4",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
+    "@teamsupercell/typings-for-css-modules-loader": "^2.2.0",
+    "@types/enzyme": "^3.10.3",
+    "@types/enzyme-adapter-react-16": "^1.0.5",
+    "@types/jest": "^24.0.18",
+    "@types/prop-types": "^15.7.2",
+    "@types/react": "^16.9.2",
+    "@types/react-dom": "^16.9.0",
+    "@types/react-router": "^5.0.3",
+    "@types/react-router-dom": "^4.3.5",
+    "@typescript-eslint/eslint-plugin": "^2.34.0",
+    "@typescript-eslint/parser": "^2.34.0",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-react-css-modules": "^5.2.6",
+    "clean-webpack-plugin": "^2.0.2",
+    "copy-webpack-plugin": "^5.0.4",
+    "core-js": "^3.1.4",
+    "css-loader": "^3.1.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "enzyme-to-json": "^3.4.0",
+    "eslint": "^7.4.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.3",
+    "file-loader": "^4.1.0",
+    "html-webpack-plugin": "^3.2.0",
+    "husky": "^4.2.5",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^24.9.0",
+    "lint-staged": "^10.2.11",
+    "node-sass": "^4.12.0",
+    "prop-types": "^15.7.2",
+    "react-router": "^5.0.1",
+    "react-router-dom": "^5.0.1",
+    "sass-loader": "^7.1.0",
+    "source-map-loader": "^0.2.4",
+    "standard-version": "^8.0.0",
+    "style-loader": "^0.23.1",
+    "ts-jest": "^24.0.2",
+    "ts-loader": "^6.0.4",
+    "typescript": "^3.6.2",
+    "url-loader": "^4.0.0",
+    "webpack": "^4.39.1",
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.7.2",
+    "webpack-merge": "^4.2.1",
+    "webpack-node-externals": "^1.7.2",
+    "nodemon": "^2.0.7"
+  },
+  "dependencies": {
+    "antd": "^4.4.1",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "npm run eslint",
+      "prettier .prettierrc --write",
+      "git add"
+    ]
+  }
+}
