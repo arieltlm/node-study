@@ -2,8 +2,7 @@ import * as React from 'react'
 import * as PropTypes from 'prop-types'
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 
-import Master from '../master'
-import BasicExample from '../basic'
+import Lists from '../lists'
 
 import './index.scss'
 
@@ -14,10 +13,9 @@ const Root = (props): React.ReactElement => {
 
     return (
         <div className="root-container">
-            <h1>Example of TitleWithEditor</h1>
+            <h1>Example of CRUD</h1>
             <Switch>
-                <Route path="/home" component={Master} />
-                <Route path="/basic" component={BasicExample} />
+                <Route path="/home" component={Lists} />
                 <Route path={url} exact render={(): React.ReactNode => <Redirect to="/home" />} />
             </Switch>
         </div>

@@ -1,6 +1,6 @@
 {
-  "name": "@mlamp/title-with-editor",
-  "version": "1.0.0-alpha.0",
+  "name": "node-test",
+  "version": "1.0.0",
   "description": "当前组件的简单描述.....",
   "main": "build/index.js",
   "scripts": {
@@ -94,11 +94,7 @@
     "react": "^16.9.0",
     "react-dom": "^16.9.0"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
+  
   "lint-staged": {
     "*.{ts,tsx}": [
       "npm run eslint",
