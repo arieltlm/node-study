@@ -9,6 +9,12 @@ module.exports = merge(common, {
     devServer: {
         historyApiFallback: true,
         port: 3001,
+        proxy: {
+            '/api': {
+                target: "http://localhost:3000/",
+                changeOrigin:true,
+            }
+        }
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -16,4 +22,5 @@ module.exports = merge(common, {
             template: path.resolve(__dirname, './view/index.html'), 
         }),
     ],
+    
 });

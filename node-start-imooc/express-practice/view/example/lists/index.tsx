@@ -35,7 +35,7 @@ const Lists: React.FC<IListState> = () => {
     const [status, setStatus] = useState('')
 
     const getList = (pageNop: number, PageSizep: number, statusp: string) => {
-        fetch(`/lists?pageNo=${pageNop}&pageSize=${PageSizep}&statusp=${statusp}`, {
+        fetch(`/api/lists?pageNo=${pageNop}&pageSize=${PageSizep}&status=${statusp}`, {
             method: 'GET'
         })
             .then(res => res.json())
