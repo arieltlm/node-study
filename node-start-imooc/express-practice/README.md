@@ -31,10 +31,19 @@ querystring.parse("name=henry&age=30") => { name: 'henry', age: '30' }
 # 数据库
 
 ORM：
-```bash
-npm install --save sequelize
-npm install --save mysql2
-```
-* 1.新建数据库
+
+## 数据库的初始化
+
+* 1. 创建一个数据库
+* 2. 使用`sequelize cli`初始化项目的数据库配置信息
+
+    ```bash
+    npm install --save sequelize
+    npm install --save mysql2
+
+    npm install --save-dev sequelize-cli
+    npx sequelize-cli init
+    ```
+
 
 
