@@ -9,12 +9,11 @@ interface IListState {
 }
 
 export interface IListItem {
-    id: number
-    deadline: string
-    content: string
-    status: string
+    id?: number
+    deadline?: string
+    content?: string
+    status?: string
 }
-
 
 const datas = [
     {
@@ -35,10 +34,10 @@ const Lists: React.FC<IListState> = () => {
     const [pageNo, setPageNo] = useState(1)
     const [pageSize, setPageSize] = useState(10)
     const [status, setStatus] = useState('')
-    const [dataSource,setDataSource] = useState<IListItem[]>([])
+    const [dataSource, setDataSource] = useState<IListItem[]>([])
 
-    const [creditVis,setCreditVis] = useState(false)
-    const [editRowData,setEditRowData] = useState<IListItem | {}>({})
+    const [creditVis, setCreditVis] = useState(false)
+    const [editRowData, setEditRowData] = useState<IListItem>({})
 
     const getList = (pageNop: number, PageSizep: number, statusp: string) => {
         fetch(`/api/lists?pageNo=${pageNop}&pageSize=${PageSizep}&status=${statusp}`, {
@@ -61,7 +60,7 @@ const Lists: React.FC<IListState> = () => {
         setCreditVis(true)
         setEditRowData(record)
     }
-    const hanldeCloseModal = ():void => {
+    const hanldeCloseModal = (): void => {
         setCreditVis(false)
     }
 
@@ -122,7 +121,9 @@ const Lists: React.FC<IListState> = () => {
     return (
         <div>
             <h2>增删改查</h2>
-            <Button type="primary" onClick={handleNew}>新增任务</Button>
+            <Button type="primary" onClick={handleNew}>
+                新增任务
+            </Button>
             <Table
                 dataSource={datas}
                 columns={columns}
@@ -135,11 +136,7 @@ const Lists: React.FC<IListState> = () => {
                 }}
                 onChange={hanldeChangePage}
             />
-            {creditVis && <Credit 
-                editRowData={editRowData} 
-                visible={creditVis}
-                handleCancel={hanldeCloseModal}
-            />}
+            {creditVis && <Credit editRowData={editRowData} visible={creditVis} handleCancel={hanldeCloseModal} />}
         </div>
     )
 }
