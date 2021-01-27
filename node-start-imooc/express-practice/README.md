@@ -37,13 +37,26 @@ ORM：
 * 1. 创建一个数据库
 * 2. 使用`sequelize cli`初始化项目的数据库配置信息
 
+    [sequelize-cli 创建模型migrations](https://www.sequelize.com.cn/other-topics/migrations)
+
     ```bash
-    npm install --save sequelize
+    npm install --save sequelizex
     npm install --save mysql2
 
     npm install --save-dev sequelize-cli
     npx sequelize-cli init
     ```
+    
+* 3.创建模型
 
+    ```bash
+    # 进入到db目录下
+    # 执行玩此句后models目录下会多一个todolist.js，migrations中也会多一个xxxxxx-create-todolist.js文件
+    npx sequelize-cli model:generate --name todolist --attributes content:string,deadline:string,status:string,id:number
+    ```
 
+* 4.运行迁移
 
+    ```bash
+    npx sequelize-cli db:migrate
+    ```

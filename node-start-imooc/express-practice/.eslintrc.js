@@ -16,11 +16,10 @@ module.exports = {
         ecmaFeatures: {
             jsx: true
         },
+        tsconfigRootDir: __dirname,
         project: './tsconfig.json'
     },
-    plugins: [
-        '@typescript-eslint', 'react', 'prettier'
-    ],
+    plugins: ['@typescript-eslint', 'react', 'prettier'],
     rules: {
         '@typescript-eslint/explicit-function-return-type': 'off',
         '@typescript-eslint/explicit-module-boundary-types': 'off',
@@ -44,11 +43,11 @@ module.exports = {
                 config: './webpack.common.js'
             },
             node: {
-                'extensions': ['.js', '.jsx', '.ts', '.tsx']
+                extensions: ['.js', '.jsx', '.ts', '.tsx']
             }
         },
-        "react": {
-            "version": "detect",
+        react: {
+            version: 'detect'
         }
     }
-};
+}

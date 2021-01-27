@@ -1,5 +1,6 @@
 import React from 'react'
-import { Modal, Form, Input, DatePicker } from 'antd'
+import moment from 'moment'
+import { Modal, Form, Input, DatePicker, message } from 'antd'
 import { IListItem } from '../lists'
 
 const { TextArea } = Input
@@ -7,6 +8,7 @@ interface ICreditProps {
     editRowData: IListItem
     visible: boolean
     handleCancel: () => void
+    handleRefresh: () => void
 }
 
 const formItemLayout = {
@@ -20,8 +22,8 @@ const formItemLayout = {
     }
 }
 
-const Credit: React.FC<ICreditProps> = ({ editRowData, visible, handleCancel }) => {
-    console.log(editRowData)
+const Credit: React.FC<ICreditProps> = ({ editRowData, visible, handleCancel, handleRefresh }) => {
+    console.log(editRowData, 'editRowData')
 
     const [form] = Form.useForm()
 
@@ -29,6 +31,37 @@ const Credit: React.FC<ICreditProps> = ({ editRowData, visible, handleCancel }) 
         form.validateFields()
             .then(values => {
                 console.log(values)
+                const { deadline: originDeadline, content } = values
+                const deadline = originDeadline.format('YYYY-MM-DD')
+                if (editRowData.id) {
+                    // 编辑
+                    fetch('/api/update', {
+                        method: 'POST',
+                        body: JSON.stringify({ ...editRowData, deadline, content })
+                    })
+                        .then(res => res.json())
+                        .then(res => {
+                            if (res.statusCode === 200) {
+                                message.success(res.message)
+                                handleCancel()
+                                handleRefresh()
+                            }
+                        })
+                } else {
+                    // 新增
+                    fetch('/api/create', {
+                        method: 'POST',
+                        body: JSON.stringify({ deadline, content })
+                    })
+                        .then(res => res.json())
+                        .then(res => {
+                            if (res.statusCode === 200) {
+                                message.success(res.message)
+                                handleCancel()
+                                handleRefresh()
+                            }
+                        })
+                }
             })
             .catch(errorInfo => {
                 console.log('err', errorInfo)
@@ -42,9 +75,9 @@ const Credit: React.FC<ICreditProps> = ({ editRowData, visible, handleCancel }) 
                     name="deadline"
                     label="截止日期"
                     rules={[{ required: true, message: '请选择日期' }]}
-                    initialValue={editRowData.deadline}
+                    initialValue={editRowData.deadline ? moment(editRowData.deadline, 'YYYY-MM-DD') : ''}
                 >
-                    <DatePicker style={{ width: '100%' }} placeholder="请选择截止日期" />
+                    <DatePicker style={{ width: '100%' }} placeholder="请选择截止日期" format="YYYY-MM-DD" />
                 </Form.Item>
                 <Form.Item
                     name="content"

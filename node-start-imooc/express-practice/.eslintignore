@@ -2,4 +2,4 @@
 /dist/
 /*.js
 **/*.spec.*
-/node-data/
+/node-data/**/*

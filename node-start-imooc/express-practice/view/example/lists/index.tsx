@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Table, Button } from 'antd'
+import { Table, Button, message, Modal } from 'antd'
 import Credit from '../credit'
 
 interface IListState {
@@ -33,9 +33,8 @@ const datas = [
 const Lists: React.FC<IListState> = () => {
     const [pageNo, setPageNo] = useState(1)
     const [pageSize, setPageSize] = useState(10)
+    const [dataSource, setDataSource] = useState<IListItem[]>(datas)
     const [status, setStatus] = useState('')
-    const [dataSource, setDataSource] = useState<IListItem[]>([])
-
     const [creditVis, setCreditVis] = useState(false)
     const [editRowData, setEditRowData] = useState<IListItem>({})
 
@@ -46,12 +45,17 @@ const Lists: React.FC<IListState> = () => {
             .then(res => res.json())
             .then(res => {
                 console.log(res)
+                setDataSource(res.data)
             })
     }
 
     useEffect(() => {
         getList(pageNo, pageSize, status)
     }, [pageNo, pageSize, status])
+
+    const handleRefresh = () => {
+        getList(pageNo, pageSize, status)
+    }
 
     const handleNew = (): void => {
         setCreditVis(true)
@@ -66,14 +70,42 @@ const Lists: React.FC<IListState> = () => {
 
     const handleDelete = (id: number): void => {
         console.log(id)
+        Modal.confirm({
+            title: '确定要删除此项吗？',
+            onOk: () => {
+                fetch(`/api/delete/${id}`, {
+                    method: 'DELETE'
+                })
+                    .then(res => res.json())
+                    .then(res => {
+                        if (res.statusCode === 200) {
+                            message.success(res.message)
+                            handleRefresh()
+                        }
+                    })
+            }
+        })
     }
 
     const handleChangeStatus = (id: number, status: string): void => {
-        console.log(id)
-        setStatus(status)
+        Modal.confirm({
+            title: '确定要修改吗？',
+            onOk: () => {
+                fetch(`/api/update/status/${id}?status=${status}`, {
+                    method: 'PUT'
+                })
+                    .then(res => res.json())
+                    .then(res => {
+                        if (res.statusCode === 200) {
+                            message.success(res.message)
+                            handleRefresh()
+                        }
+                    })
+            }
+        })
     }
 
-    const columns = [
+    const columns: any = [
         {
             title: 'id',
             dataIndex: 'id'
@@ -89,7 +121,19 @@ const Lists: React.FC<IListState> = () => {
         {
             title: '状态',
             dataIndex: 'status',
-            render: (text: string) => (text === '1' ? '待办' : '完成')
+            render: (text: string) => (text === '1' ? '待办' : '完成'),
+            filteredValue: status ? [status] : '',
+            filterMultiple: false,
+            filters: [
+                {
+                    text: '待办',
+                    value: 1
+                },
+                {
+                    text: '完成',
+                    value: 2
+                }
+            ]
         },
         {
             title: '操作',
@@ -112,10 +156,11 @@ const Lists: React.FC<IListState> = () => {
         }
     ]
 
-    const hanldeChangePage = (pagination: any) => {
+    const hanldeChangePage = (pagination: any, filters) => {
         const { current, pageSize: pageSizeParams } = pagination
         setPageNo(current)
         setPageSize(pageSizeParams)
+        setStatus(filters?.status?.[0])
     }
 
     return (
@@ -125,7 +170,7 @@ const Lists: React.FC<IListState> = () => {
                 新增任务
             </Button>
             <Table
-                dataSource={datas}
+                dataSource={dataSource}
                 columns={columns}
                 rowKey="id"
                 pagination={{
@@ -136,7 +181,14 @@ const Lists: React.FC<IListState> = () => {
                 }}
                 onChange={hanldeChangePage}
             />
-            {creditVis && <Credit editRowData={editRowData} visible={creditVis} handleCancel={hanldeCloseModal} />}
+            {creditVis && (
+                <Credit
+                    editRowData={editRowData}
+                    visible={creditVis}
+                    handleCancel={hanldeCloseModal}
+                    handleRefresh={handleRefresh}
+                />
+            )}
         </div>
     )
 }
