@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 const models = require('../db/models')
 // const { sequelize, Sequelize } = require('../db/models')
-console.log('models=====',models)
+// console.log('models=====',models)
 
 // {
 //     [model:Todo],
@@ -21,8 +21,6 @@ console.log('models=====',models)
 // 新增
 app.post('/api/create', async (req, res,next) => {
     try{
-        console.log(req)
-        console.log(req.body)
         const { name,deadline, content,status = '1' } = req.body
 
         // 数据持久化到数据库

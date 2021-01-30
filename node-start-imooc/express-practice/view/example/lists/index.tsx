@@ -64,6 +64,7 @@ const Lists: React.FC<IListState> = () => {
 
     const handleNew = (): void => {
         setCreditVis(true)
+        setEditRowData({})
     }
     const handleEdit = (record: IListItem): void => {
         setCreditVis(true)

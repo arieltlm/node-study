@@ -64,8 +64,21 @@ ORM：
     ```bash
     npx sequelize-cli db:migrate
     ```
+## 项目的发布和运维
 
+```bash
+npm install pm2 -g
 
+pm2 init
+```
+
+* 启动命令：pm2 start ecosystem.config.js
+* 重启命令：pm2 restart ecosystem.config.js
+* 重启命令：pm2 restart [id]
+* 查看日志：pm2 log [www]
+* 结束进程/应用：pm2 stop [www]
+* 结束所有进程/应用：pm2 stop all
+* 列出所有的进程/应用：pm2 list
 ## sequelize中代码浅读
 
 模型是ES6类；
