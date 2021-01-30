@@ -31,12 +31,15 @@ const Credit: React.FC<ICreditProps> = ({ editRowData, visible, handleCancel, ha
         form.validateFields()
             .then(values => {
                 console.log(values)
-                const { deadline: originDeadline, content } = values
+                const { deadline: originDeadline, content, name } = values
                 const deadline = originDeadline.format('YYYY-MM-DD')
                 if (editRowData.id) {
                     // 编辑
                     fetch('/api/update', {
-                        method: 'POST',
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
                         body: JSON.stringify({ ...editRowData, deadline, content })
                     })
                         .then(res => res.json())
@@ -51,7 +54,10 @@ const Credit: React.FC<ICreditProps> = ({ editRowData, visible, handleCancel, ha
                     // 新增
                     fetch('/api/create', {
                         method: 'POST',
-                        body: JSON.stringify({ deadline, content })
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ deadline, content, name })
                     })
                         .then(res => res.json())
                         .then(res => {
@@ -71,6 +77,14 @@ const Credit: React.FC<ICreditProps> = ({ editRowData, visible, handleCancel, ha
     return (
         <Modal title="新建修改" visible={visible} onCancel={handleCancel} onOk={handleOk}>
             <Form {...formItemLayout} form={form}>
+                <Form.Item
+                    name="name"
+                    label="名称"
+                    rules={[{ required: true, message: '请输入名称' }]}
+                    initialValue={editRowData.name}
+                >
+                    <Input placeholder="请输入名称" />
+                </Form.Item>
                 <Form.Item
                     name="deadline"
                     label="截止日期"

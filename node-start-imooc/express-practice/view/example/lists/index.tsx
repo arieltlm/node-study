@@ -10,6 +10,7 @@ interface IListState {
 
 export interface IListItem {
     id?: number
+    name?: string
     deadline?: string
     content?: string
     status?: string
@@ -18,12 +19,14 @@ export interface IListItem {
 const datas = [
     {
         id: 1,
+        name: '111',
         deadline: '2010-12-22',
         content: '111111',
         status: '1'
     },
     {
         id: 2,
+        name: '111',
         deadline: '2010-12-22',
         content: '111111',
         status: '1'
@@ -44,8 +47,10 @@ const Lists: React.FC<IListState> = () => {
         })
             .then(res => res.json())
             .then(res => {
-                console.log(res)
-                setDataSource(res.data)
+                console.log('%c 🍾 res: ', 'font-size:20px;background-color: #FCA650;color:#fff;', res)
+                if (res.statusCode === 200) {
+                    setDataSource(res.data)
+                }
             })
     }
 
@@ -88,10 +93,13 @@ const Lists: React.FC<IListState> = () => {
     }
 
     const handleChangeStatus = (id: number, status: string): void => {
+        const updateStatus = status === '1' ? '2' : '1'
+        const text = status === '1' ? '完成' : '待办'
+
         Modal.confirm({
-            title: '确定要修改吗？',
+            title: `确定要修改状态为${text}吗？`,
             onOk: () => {
-                fetch(`/api/update/status/${id}?status=${status}`, {
+                fetch(`/api/update/status/${id}?status=${updateStatus}`, {
                     method: 'PUT'
                 })
                     .then(res => res.json())
@@ -109,6 +117,10 @@ const Lists: React.FC<IListState> = () => {
         {
             title: 'id',
             dataIndex: 'id'
+        },
+        {
+            title: '名称',
+            dataIndex: 'name'
         },
         {
             title: '截止日期',
