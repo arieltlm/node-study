@@ -116,11 +116,25 @@ app.put('/api/update/status/:id', async (req, res, next) => {
 // 查询列表
 app.get('/api/lists', async (req, res, next) => {
     try{
-        const lists = await models.Todo.findAll()
+        const {pageNo,pageSize,status} = req.query
+        const offset = (Number(pageNo) - 1)* Number(pageSize)
+        const limit = Number(pageSize)
+        // const lists = await models.Todo.findAll()
+        const where = status ? {where:{status}} :{}
+
+        const {count,rows:lists} = await models.Todo.findAndCountAll({
+            ...where,
+            offset:(Number(pageNo) - 1)* Number(pageSize),
+            limit:Number(pageSize)
+        })
+
         res.json({
             message:'查询成功',
             statusCode:200,
-            data: lists
+            data: {
+                lists,
+                total:count
+            }
         })
     } catch (error){
         next(error)

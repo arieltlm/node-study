@@ -37,19 +37,23 @@ const Lists: React.FC<IListState> = () => {
     const [pageNo, setPageNo] = useState(1)
     const [pageSize, setPageSize] = useState(10)
     const [dataSource, setDataSource] = useState<IListItem[]>(datas)
+    const [total, setTotal] = useState<number>(0)
     const [status, setStatus] = useState('')
     const [creditVis, setCreditVis] = useState(false)
     const [editRowData, setEditRowData] = useState<IListItem>({})
 
     const getList = (pageNop: number, PageSizep: number, statusp: string) => {
         fetch(`/api/lists?pageNo=${pageNop}&pageSize=${PageSizep}&status=${statusp}`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
         })
             .then(res => res.json())
             .then(res => {
-                console.log('%c 🍾 res: ', 'font-size:20px;background-color: #FCA650;color:#fff;', res)
                 if (res.statusCode === 200) {
-                    setDataSource(res.data)
+                    setDataSource(res.data.lists)
+                    setTotal(res.data.total)
                 }
             })
     }
@@ -117,7 +121,8 @@ const Lists: React.FC<IListState> = () => {
     const columns: any = [
         {
             title: 'id',
-            dataIndex: 'id'
+            dataIndex: 'id',
+            width: 80
         },
         {
             title: '名称',
@@ -134,6 +139,7 @@ const Lists: React.FC<IListState> = () => {
         {
             title: '状态',
             dataIndex: 'status',
+            width: 100,
             render: (text: string) => (text === '1' ? '待办' : '完成'),
             filteredValue: status ? [status] : '',
             filterMultiple: false,
@@ -173,7 +179,7 @@ const Lists: React.FC<IListState> = () => {
         const { current, pageSize: pageSizeParams } = pagination
         setPageNo(current)
         setPageSize(pageSizeParams)
-        setStatus(filters?.status?.[0])
+        setStatus(filters?.status?.[0] || '')
     }
 
     return (
@@ -189,9 +195,11 @@ const Lists: React.FC<IListState> = () => {
                 pagination={{
                     current: pageNo,
                     pageSize,
+                    total: total,
                     showSizeChanger: true,
                     size: 'small'
                 }}
+                scroll={{ y: 500 }}
                 onChange={hanldeChangePage}
             />
             {creditVis && (
